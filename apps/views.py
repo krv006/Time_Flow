@@ -9,13 +9,17 @@ from apps.models import User
 from apps.serializers import UserModelSerializer, RegisterUserModelSerializer, LoginUserModelSerializer
 
 
-@extend_schema(tags=["User"], description="User Get")
+@extend_schema(tags=["User"], description="User lardi olish")
 class UserListApiView(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
 
 
-@extend_schema(tags=['Auth'], description="Register new user with phone number")
+@extend_schema(
+    tags=["Auth"],
+    description="Foydalanuvchini telefon raqam orqali ro‘yxatdan o‘tkazish.",
+    request=RegisterUserModelSerializer
+)
 class RegisterAPIView(GenericAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterUserModelSerializer
@@ -39,7 +43,11 @@ class RegisterAPIView(GenericAPIView):
         )
 
 
-@extend_schema(tags=['Auth'], description="API for login users that already exists in database")
+@extend_schema(
+    tags=["Auth"],
+    description="Foydalanuvchini telefon raqami orqali tizimga kiritish.",
+    request=LoginUserModelSerializer
+)
 class LoginAPIView(GenericAPIView):
     queryset = User.objects.all()
     serializer_class = LoginUserModelSerializer
