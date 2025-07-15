@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     # todo third package
     'rest_framework',
     'drf_spectacular',
+    'rest_framework_simplejwt',
 
 ]
 
