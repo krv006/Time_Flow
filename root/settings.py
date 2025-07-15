@@ -17,6 +17,8 @@ INSTALLED_APPS = [
     # todo my package
     'apps',
     # todo third package
+    'rest_framework',
+    'drf_spectacular',
 
 ]
 
@@ -84,3 +86,5 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+from root.drf_settings import *
