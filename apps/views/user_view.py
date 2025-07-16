@@ -23,7 +23,7 @@ class UserListApiView(ListAPIView):
 class RegisterAPIView(GenericAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterUserModelSerializer
-    permission_classes = [AllowAny]
+    permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -51,7 +51,7 @@ class RegisterAPIView(GenericAPIView):
 class LoginAPIView(GenericAPIView):
     queryset = User.objects.all()
     serializer_class = LoginUserModelSerializer
-    permission_classes = [AllowAny]
+    permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
