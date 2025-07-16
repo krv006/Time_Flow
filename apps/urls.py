@@ -1,6 +1,7 @@
 from django.urls import path
 
-from apps.views import UserListApiView, RegisterAPIView, LoginAPIView, ProcessListCreateAPIView
+from apps.views import UserListApiView, RegisterAPIView, LoginAPIView, ProcessListCreateAPIView, \
+    ProductListCreateAPIView
 
 urlpatterns = [
     path('users/', UserListApiView.as_view(), name='users'),
@@ -11,4 +12,5 @@ urlpatterns = [
 
     # todo Manager
     path('process/', ProcessListCreateAPIView.as_view(), name='process'),
+    path('product/', ProductListCreateAPIView.as_view(), name='product'),
 ]
