@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models import CharField, DateTimeField
 from django.utils import timezone
 
-from .managers import CustomUserManager
+from apps.models import CustomUserManager
 
 
 class User(AbstractUser):
