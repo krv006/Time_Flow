@@ -1,12 +1,18 @@
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        # todo Login qilmasdan turib get qila oladi
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        # todo Login qila olmagan xech qaysi bir userga xato get xam ochiq emas
+        'rest_framework.permissions.IsAuthenticated'
+        # 'Time_Flow.apps.permissions.CustomIsAuthenticated'
     ],
+
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+
 }
 
 SPECTACULAR_SETTINGS = {
