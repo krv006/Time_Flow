@@ -1,7 +1,7 @@
 from django.urls import path
 
 from apps.views import UserListApiView, RegisterAPIView, LoginAPIView, ProcessListCreateAPIView, \
-    ProductListCreateAPIView
+    ProductListCreateAPIView, ManagerLoginAPIView, ManagerRegisterAPIView
 
 urlpatterns = [
     path('users/', UserListApiView.as_view(), name='users'),
@@ -13,4 +13,7 @@ urlpatterns = [
     # todo Manager
     path('process/', ProcessListCreateAPIView.as_view(), name='process'),
     path('product/', ProductListCreateAPIView.as_view(), name='product'),
+    path('manager-register/', ManagerRegisterAPIView.as_view(), name='manager-register'),
+    path('manager-login/', ManagerLoginAPIView.as_view(), name='manager-login'),
+
 ]
