@@ -1,40 +1,42 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import GenericAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED, HTTP_200_OK
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.models import ManagerUser
-from apps.serializers import RegisterManagerUserSerializer, LoginManagerUserSerializer
+from apps.permission import IsManager
+from apps.serializers import ManagerCreatesUserSerializer, LoginManagerUserSerializer
 
 
 @extend_schema(
     tags=["Manager Auth"],
-    description="Manager foydalanuvchini ro‘yxatdan o‘tkazish.",
-    request=RegisterManagerUserSerializer,
+    description="Manager tomonidan yangi foydalanuvchi yaratish.",
+    request=ManagerCreatesUserSerializer,
+    responses={201: ManagerCreatesUserSerializer}
 )
-class ManagerRegisterAPIView(GenericAPIView):
+class ManagerCreatesUserView(CreateAPIView):
     queryset = ManagerUser.objects.all()
-    serializer_class = RegisterManagerUserSerializer
-    permission_classes = (AllowAny,)
+    serializer_class = ManagerCreatesUserSerializer
+    permission_classes = [IsAuthenticated, IsManager]
 
-    def post(self, request, *args, **kwargs):
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        return Response(
-            {
-                "message": "Manager foydalanuvchi muvaffaqiyatli ro'yxatdan o'tdi.",
-                "user": {
-                    "id": user.id,
-                    "phone_number": user.phone_number,
-                    "full_name": f"{user.first_name} {user.last_name}",
-                    "is_active": user.is_active,
-                }
-            },
-            status=HTTP_201_CREATED
-        )
+        manager = serializer.save()
+        return Response({
+            "message": "Foydalanuvchi muvaffaqiyatli yaratildi.",
+            "manager": {
+                "id": manager.id,
+                "phone_number": manager.phone_number,
+                "name": manager.name,
+                "process": manager.process.id if manager.process else None,
+            }
+        }, status=HTTP_201_CREATED)
 
 
 @extend_schema(
@@ -45,7 +47,7 @@ class ManagerRegisterAPIView(GenericAPIView):
 class ManagerLoginAPIView(GenericAPIView):
     queryset = ManagerUser.objects.all()
     serializer_class = LoginManagerUserSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsManager,)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

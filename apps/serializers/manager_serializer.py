@@ -1,19 +1,21 @@
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 
 from apps.models import ManagerUser
 
 
-class RegisterManagerUserSerializer(serializers.ModelSerializer):
+class ManagerCreatesUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ManagerUser
-        fields = ('name', 'phone_number', 'password', 'process', 'created_at')
+        fields = ('phone_number', 'name', 'password', 'process')
         extra_kwargs = {
-            "password": {"write_only": True}
+            'password': {'write_only': True}
         }
 
     def create(self, validated_data):
-        return ManagerUser.objects.create_user(**validated_data)
+        validated_data['password'] = make_password(validated_data['password'])
+        return ManagerUser.objects.create(**validated_data)
 
 
 class LoginManagerUserSerializer(serializers.Serializer):
