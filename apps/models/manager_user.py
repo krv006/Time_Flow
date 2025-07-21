@@ -1,4 +1,4 @@
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password, make_password
 from django.db.models import ForeignKey, CASCADE, CharField, Model, DateTimeField
 
 
@@ -10,10 +10,14 @@ class ManagerUser(Model):
     created_at = DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
-        # todo Password hash
-        if not self.pk or 'password' in self.get_dirty_fields():
+        if not self.pk or not ManagerUser.objects.filter(pk=self.pk).exists():
+            self.password = make_password(self.password)
+        elif not self.password.startswith('pbkdf2_'):
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
 
     def __str__(self):
         return self.phone_number

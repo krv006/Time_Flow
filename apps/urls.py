@@ -1,7 +1,7 @@
 from django.urls import path
 
 from apps.views import UserListApiView, RegisterAPIView, LoginAPIView, ProcessListCreateAPIView, \
-    ProductListCreateAPIView, ManagerLoginAPIView, ManagerCreatesUserView
+    ProductListCreateAPIView, LoginManagerUserAPIView   , ManagerCreatesUserView
 
 urlpatterns = [
     path('users/', UserListApiView.as_view(), name='users'),
@@ -14,6 +14,6 @@ urlpatterns = [
     path('process/', ProcessListCreateAPIView.as_view(), name='process'),
     path('product/', ProductListCreateAPIView.as_view(), name='product'),
     path('manager-register/', ManagerCreatesUserView.as_view(), name='manager-register'),
-    path('manager-login/', ManagerLoginAPIView.as_view(), name='manager-login'),
+    path('manager-login/', LoginManagerUserAPIView  .as_view(), name='manager-login'),
 
 ]

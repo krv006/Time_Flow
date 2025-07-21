@@ -3,8 +3,10 @@ REST_FRAMEWORK = {
         # todo Login qilmasdan turib get qila oladi
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
         # todo Login qila olmagan xech qaysi bir userga xato get xam ochiq emas
-        'rest_framework.permissions.IsAuthenticated'
+        'rest_framework.permissions.IsAuthenticated',
+        # 'apps.authentication.PhoneNumberBackend',
         # 'Time_Flow.apps.permissions.CustomIsAuthenticated'
+
     ],
 
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',

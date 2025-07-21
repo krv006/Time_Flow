@@ -1,5 +1,4 @@
-from django.contrib.auth import authenticate
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import serializers
 
 from apps.models import ManagerUser
@@ -14,26 +13,24 @@ class ManagerCreatesUserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        validated_data['password'] = make_password(validated_data['password'])
-        return ManagerUser.objects.create(**validated_data)
-
+        validated_data["password"] = make_password(validated_data["password"])
+        return super().create(validated_data)
 
 class LoginManagerUserSerializer(serializers.Serializer):
     phone_number = serializers.CharField()
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField()
 
     def validate(self, attrs):
         phone_number = attrs.get("phone_number")
         password = attrs.get("password")
 
-        user = authenticate(username=phone_number, password=password)
+        try:
+            user = ManagerUser.objects.get(phone_number=phone_number)
+        except ManagerUser.DoesNotExist:
+            raise serializers.ValidationError("Bunday foydalanuvchi mavjud emas.")
 
-        if not user:
-            raise serializers.ValidationError("Telefon raqam yoki parol noto‘g‘ri.")
-        if not isinstance(user, ManagerUser):
-            raise serializers.ValidationError("Siz manager emassiz.")
-        if not user.is_active:
-            raise serializers.ValidationError("Foydalanuvchi aktiv emas.")
+        if not check_password(password, user.password):
+            raise serializers.ValidationError("Parol noto‘g‘ri.")
 
         attrs["user"] = user
         return attrs
