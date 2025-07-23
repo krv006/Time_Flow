@@ -16,6 +16,7 @@ class ManagerCreatesUserSerializer(serializers.ModelSerializer):
         validated_data["password"] = make_password(validated_data["password"])
         return super().create(validated_data)
 
+
 class LoginManagerUserSerializer(serializers.Serializer):
     phone_number = serializers.CharField()
     password = serializers.CharField()
@@ -31,6 +32,9 @@ class LoginManagerUserSerializer(serializers.Serializer):
 
         if not check_password(password, user.password):
             raise serializers.ValidationError("Parol noto‘g‘ri.")
+
+        if not user.is_active:
+            raise serializers.ValidationError("Foydalanuvchi faollashtirilmagan.")
 
         attrs["user"] = user
         return attrs
