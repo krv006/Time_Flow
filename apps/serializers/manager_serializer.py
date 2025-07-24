@@ -1,13 +1,13 @@
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import serializers
 
-from apps.models import ManagerUser
+from apps.models import User
 
 
 class ManagerCreatesUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ManagerUser
-        fields = ('phone_number', 'name', 'password', 'process')
+        model = User  # oldingi ManagerUser emas
+        fields = ('phone_number', 'first_name', 'password', 'process')
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -26,8 +26,8 @@ class LoginManagerUserSerializer(serializers.Serializer):
         password = attrs.get("password")
 
         try:
-            user = ManagerUser.objects.get(phone_number=phone_number)
-        except ManagerUser.DoesNotExist:
+            user = User.objects.get(phone_number=phone_number)
+        except User.DoesNotExist:
             raise serializers.ValidationError("Bunday foydalanuvchi mavjud emas.")
 
         if not check_password(password, user.password):

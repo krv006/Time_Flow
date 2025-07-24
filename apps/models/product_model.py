@@ -11,7 +11,7 @@ class Product(Model):
 
 class Process(Model):
     name = CharField(max_length=255)
-    manager = ForeignKey('apps.User', CASCADE, limit_choices_to={'role': 'manager'})
+    manager = ForeignKey('apps.User', CASCADE, limit_choices_to={'role': 'manager'}, related_name='managed_processes')
 
     def __str__(self):
         return f"{self.name} -> {self.manager.get_full_name()}"

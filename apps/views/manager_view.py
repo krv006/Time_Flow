@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from apps.models import ManagerUser
+from apps.models import User  # ManagerUser emas
 from apps.permission import IsManager
 from apps.serializers import ManagerCreatesUserSerializer, LoginManagerUserSerializer
 
@@ -17,7 +17,7 @@ from apps.serializers import ManagerCreatesUserSerializer, LoginManagerUserSeria
     responses={201: ManagerCreatesUserSerializer}
 )
 class ManagerCreatesUserView(CreateAPIView):
-    queryset = ManagerUser.objects.all()
+    queryset = User.objects.all()
     serializer_class = ManagerCreatesUserSerializer
     permission_classes = [IsAuthenticated, IsManager]
 
@@ -27,14 +27,15 @@ class ManagerCreatesUserView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        manager = serializer.save()
+        user = serializer.save()
         return Response({
             "message": "Foydalanuvchi muvaffaqiyatli yaratildi.",
-            "manager": {
-                "id": manager.id,
-                "phone_number": manager.phone_number,
-                "name": manager.name,
-                "process": manager.process.id if manager.process else None,
+            "user": {
+                "id": user.id,
+                "phone_number": user.phone_number,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "process": user.process.id if hasattr(user, "process") and user.process else None,
             }
         }, status=HTTP_201_CREATED)
 
@@ -63,7 +64,8 @@ class LoginManagerUserAPIView(GenericAPIView):
             "user": {
                 "id": user.id,
                 "phone_number": user.phone_number,
-                "name": user.name,
-                "process": user.process.id if user.process else None,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "process": user.process.id if hasattr(user, "process") and user.process else None,
             }
         }, status=HTTP_200_OK)

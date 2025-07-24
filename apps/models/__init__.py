@@ -1,4 +1,3 @@
-from apps.models.manager_user import ManagerUser
 from apps.models.managers import CustomUserManager
 from apps.models.managers import CustomUserManager
 from apps.models.product_model import Process, Product
