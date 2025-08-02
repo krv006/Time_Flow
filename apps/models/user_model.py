@@ -11,6 +11,7 @@ class User(AbstractUser):
         ('admin', 'Admin'),
         ('manager', 'Manager'),
         ('seller', 'Seller'),
+        ('warehouseman', 'Warehouseman'),
         ('user', 'User'),
     )
 
@@ -20,10 +21,10 @@ class User(AbstractUser):
     phone_number = CharField(max_length=20, unique=True)
     first_name = CharField(max_length=120)
     last_name = CharField(max_length=120)
-    role = CharField(max_length=10, choices=ROLE_CHOICES, default='user')
+    role = CharField(max_length=255, choices=ROLE_CHOICES, default='user')
     date_joined = DateTimeField(default=timezone.now)
 
-    # todo ManagerUser'dan qo‘shilganlar
+    # todo ManagerUser dan qo‘shilganlar
     process = ForeignKey('apps.Process', CASCADE, related_name='users', null=True, blank=True)
     created_at = DateTimeField(auto_now_add=True)
     is_active = BooleanField(default=True)
