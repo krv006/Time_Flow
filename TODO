@@ -12,3 +12,9 @@ PRODUCT ni qoshgandan kein uni nima qilish kerak -> DONE
 
 Filter qoyish user di Process ni name boyicha filter qoyamiz
 
+
+4. User ga yangi role qoshamiz
+5. Warehouse Model, View, Serializer la yozamiz yangi
+6. Detail lar yozib chiqish
+7. Bool tipida keladigan xar qanday malumotni yani true false malumotni soz bilan yani 1 2 3 4 shakilda berish
+    (role ga xoshatib)
