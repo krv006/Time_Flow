@@ -18,4 +18,4 @@ class Processing(Model):
     data = DateField(default=timezone.now)
     created_at = DateTimeField(auto_now_add=True)
     material = ForeignKey('apps.Material', CASCADE, related_name='processing')
-    user = ForeignKey('apps.User', CASCADE, related_name='processing')
+    user = ForeignKey('apps.User', CASCADE, related_name='processing', limit_choices_to={'role': 'warehouseman'})
