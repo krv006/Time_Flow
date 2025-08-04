@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'apps',
     # todo third package
     'rest_framework',
+    'django_filters',
     'drf_spectacular',
     'rest_framework_simplejwt',
 
