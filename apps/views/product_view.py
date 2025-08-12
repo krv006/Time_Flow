@@ -11,9 +11,13 @@ class ProductListCreateAPIView(ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductModelSerializer
     permission_classes = (IsAuthenticated, IsManager)
+    search_fields = ('name', 'process__name')
+    filterset_fields = ('name', 'process')
 
 
 class ProcessListCreateAPIView(ListCreateAPIView):
     queryset = Process.objects.all()
     serializer_class = ProcessModelSerializer
     permission_classes = (IsAuthenticated, IsManager)
+    search_fields = ('name', 'manager__phone_number')
+    filterset_fields = ('name', 'manager')
