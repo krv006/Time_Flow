@@ -41,11 +41,21 @@ class ProcessingListCreateAPIView(ListCreateAPIView):
         return Processing.objects.exclude(user__role='warehouseman')
 
 
+@extend_schema(
+    tags=["Warehouse"],
+    description="Warehouse qismi.",
+    request=ProcessingModelSerializer
+)
 class ProcessingDestroyAPIView(DestroyAPIView):
     serializer_class = ProcessingModelSerializer
     lookup_field = 'id'
 
 
+@extend_schema(
+    tags=["Warehouse"],
+    description="Warehouse qismi.",
+    request=ProcessingModelSerializer
+)
 class ProcessingUpdateAPIView(UpdateAPIView):
     serializer_class = ProcessingModelSerializer
     lookup_field = 'id'
