@@ -2,7 +2,8 @@ from django.urls import path
 
 from apps.views import UserListApiView, RegisterAPIView, LoginAPIView, ProcessListCreateAPIView, \
     ProductListCreateAPIView, LoginManagerUserAPIView, ManagerCreatesUserView, MaterialListCreateAPIView, \
-    ProcessingListCreateAPIView, ManagerDestroyAPIView, ProductDestroyAPIView, ProcessDestroyAPIView
+    ProcessingListCreateAPIView, ManagerDestroyAPIView, ProductDestroyAPIView, ProcessDestroyAPIView, \
+    ProcessingDestroyAPIView, ProcessingUpdateAPIView
 
 urlpatterns = [
     path('users/', UserListApiView.as_view(), name='users'),
@@ -23,4 +24,6 @@ urlpatterns = [
     # todo Warehouseman
     path('material/', MaterialListCreateAPIView.as_view(), name='material'),
     path('processing/', ProcessingListCreateAPIView.as_view(), name='processing'),
+    path('processing-delete/<int:pk>', ProcessingDestroyAPIView.as_view(), name='processing-delete'),
+    path('processing-update/<int:pk>', ProcessingUpdateAPIView.as_view(), name='processing-update'),
 ]

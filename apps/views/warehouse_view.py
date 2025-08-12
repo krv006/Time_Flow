@@ -1,5 +1,5 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from apps.models import Material
@@ -39,3 +39,13 @@ class ProcessingListCreateAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         return Processing.objects.exclude(user__role='warehouseman')
+
+
+class ProcessingDestroyAPIView(DestroyAPIView):
+    serializer_class = ProcessingModelSerializer
+    lookup_field = 'id'
+
+
+class ProcessingUpdateAPIView(UpdateAPIView):
+    serializer_class = ProcessingModelSerializer
+    lookup_field = 'id'
