@@ -1,5 +1,5 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import GenericAPIView, CreateAPIView
+from rest_framework.generics import GenericAPIView, CreateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED
@@ -69,3 +69,13 @@ class LoginManagerUserAPIView(GenericAPIView):
                 "process": user.process.id if hasattr(user, "process") and user.process else None,
             }
         }, status=HTTP_200_OK)
+
+
+@extend_schema(
+    tags=["Manager Auth"],
+    description="Manager tomonidan yangi foydalanuvchi yaratish.",
+    request=ManagerCreatesUserSerializer,
+)
+class ManagerDestroyAPIView(DestroyAPIView):
+    serializer_class = ManagerCreatesUserSerializer
+    lookup_field = 'id'
