@@ -28,6 +28,7 @@ class User(AbstractUser):
     process = ForeignKey('apps.Process', CASCADE, related_name='users', null=True, blank=True)
     created_at = DateTimeField(auto_now_add=True)
     is_active = BooleanField(default=True)
+    time_work = BooleanField(default=False)
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = []
